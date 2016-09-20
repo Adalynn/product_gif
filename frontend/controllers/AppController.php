@@ -210,4 +210,17 @@ class AppController extends Controller
             'model' => $model,
         ]);
     }
+	
+    /**
+     * Displays dashboard.
+     *
+     * @return mixed
+     */
+    public function actionDashboard()
+    {
+		if(Yii::$app->user->isGuest){
+			return $this->goHome();
+		}
+		return $this->render('index');
+    }
 }

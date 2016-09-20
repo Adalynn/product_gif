@@ -12,6 +12,9 @@ $this->title = 'My Yii Application';
         <p class="lead">You have successfully created your Yii-powered application.</p>
 
         <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
+		<p>
+			All the site content will come here this could be static content or the content from DB which does not required any login authorization.
+		</p>
     </div>
 
     <div class="body-content">

@@ -83,12 +83,14 @@ class SiteController extends Controller
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
+            //return $this->goHome();
+			return $this->redirect(['/app/dashboard']);
         }
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+			$this->redirect(['/app/dashboard']);
+            //return $this->goBack();
         } else {
             return $this->render('login', [
                 'model' => $model,
@@ -148,12 +150,21 @@ class SiteController extends Controller
      */
     public function actionSignup()
     {
+		if(!Yii::$app->user->isGuest) {
+			$this->redirect(['/app/dashboard']);			
+		}
+
         $model = new SignupForm();
+		
+				
         if ($model->load(Yii::$app->request->post())) {
-            if ($user = $model->signup()) {
-                if (Yii::$app->getUser()->login($user)) {
-                    return $this->goHome();
-                }
+			$model->is_subscribed = Yii::$app->request->post()['SignupForm']['is_subscribed'];
+			$model->status = 1;
+			$model->role = 2;
+			if ($user = $model->signup()) {
+				if(!Yii::$app->user->isGuest) {
+					$this->redirect(['/app/dashboard']);			
+				}
             }
         }
 
@@ -169,6 +180,10 @@ class SiteController extends Controller
      */
     public function actionRequestPasswordReset()
     {
+		/*$resetLink = Yii::$app->urlManager->createAbsoluteUrl(['site/reset-password', 'token' => $user->password_reset_token]);
+		print_r($resetLink);
+		$resetLink = http://localhost:8080/index.php?r=site%2Freset-password&token=rOJyDTZqug5t5wYnT3EQiL0u6Gmkwdzx_1474395105
+		exit();*/
         $model = new PasswordResetRequestForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail()) {
