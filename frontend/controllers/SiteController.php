@@ -161,6 +161,7 @@ class SiteController extends Controller
 			$model->is_subscribed = Yii::$app->request->post()['SignupForm']['is_subscribed'];
 			$model->status = 1;
 			$model->role = 2;
+            $model->password_reset_token = '';
 			if ($user = $model->signup()) {
 				if(!Yii::$app->user->isGuest) {
 					$this->redirect(['/app/dashboard']);			

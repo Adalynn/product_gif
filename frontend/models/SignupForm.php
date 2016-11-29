@@ -18,7 +18,8 @@ class SignupForm extends Model
 	public $is_subscribed = false;
 	public $role;
 	public $status;
-
+	public $password_reset_token;
+	
     /**
      * @inheritdoc
      */
@@ -67,6 +68,7 @@ class SignupForm extends Model
 		$array_post['role'] =  (int) $this->role;
 		$array_post['status'] =  (int) $this->status;
 		$array_post['is_subscribed'] = $this->is_subscribed;
+		$array_post['password_reset_token'] = $this->password_reset_token;
 		
 		//$array_post['first_name'] = $this->first_name;
 		//$array_post['last_name'] = $this->last_name;
@@ -77,6 +79,7 @@ class SignupForm extends Model
 			'username' => $array_post['username'],
 			'password' => $array_post['password'],
 			'password_hash' => $array_post['password_hash'],
+			'password_reset_token' => $array_post['password_reset_token'],
 			'auth_key' => $array_post['auth_key'],
 			'role' => $array_post['role'],
 			'status'=> $array_post['status'],
