@@ -54,15 +54,20 @@ class PasswordResetRequestForm extends Model
             }
         }
 
-        return Yii::$app
-            ->mailer
-            ->compose(
-                ['html' => 'passwordResetToken-html', 'text' => 'passwordResetToken-text'],
-                ['user' => $user]
-            )
-            ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' robot'])
-            ->setTo($this->email)
-            ->setSubject('Password reset for ' . Yii::$app->name)
-            ->send();
+        if(Yii::$app->params['env'] != "dev") {
+            return Yii::$app
+                ->mailer
+                ->compose(
+                    ['html' => 'passwordResetToken-html', 'text' => 'passwordResetToken-text'],
+                    ['user' => $user]
+                )
+                ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name . ' robot'])
+                ->setTo($this->email)
+                ->setSubject('Password reset for ' . Yii::$app->name)
+                ->send();
+        } else {
+            $resetLink = "dev_log reset password_link  ".Yii::$app->urlManager->createAbsoluteUrl(['site/reset-password', 'token' => $user->password_reset_token]);
+            Yii::info($resetLink, 'orders');
+        }
     }
 }

@@ -180,10 +180,6 @@ class SiteController extends Controller
      */
     public function actionRequestPasswordReset()
     {
-		/*$resetLink = Yii::$app->urlManager->createAbsoluteUrl(['site/reset-password', 'token' => $user->password_reset_token]);
-		print_r($resetLink);
-		$resetLink = http://localhost:8080/index.php?r=site%2Freset-password&token=rOJyDTZqug5t5wYnT3EQiL0u6Gmkwdzx_1474395105
-		exit();*/
         $model = new PasswordResetRequestForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail()) {
